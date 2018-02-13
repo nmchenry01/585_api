@@ -11,7 +11,8 @@ const app = express();
 const PORT=8080; 
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/location');
+var mongo_url = process.env.MONGO_URL
+mongoose.connect(mongo_url);
 
 //Tell our app to use our router whenever we see api
 app.use('/api', router);
@@ -20,7 +21,7 @@ app.use('/api', router);
 //TODO consider redirecting to a file
 app.use(morgan('combined'));
 
-// Launch the server on port 3000
+// Launch the server on port 8080
 const server = app.listen(PORT, () => {
   const {
     address,
