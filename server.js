@@ -6,12 +6,22 @@ import router from './api/router.js'
 import express from 'express';
 import morgan from 'morgan';
 
+/*
+TODO set express deployment to production
+     Add error checking to db connection
+     More logging 
+     Send back json responses in router 
+
+*/
+
 // Initialize http server
 const app = express();
 const PORT=8080; 
 
 // Connect to MongoDB
-var mongo_url = process.env.MONGO_URL
+
+var mongo_url = process.env.MONGO_URL //for deployment
+//var test_url = 'mongodb://localhost/mongodb' //for testing
 mongoose.connect(mongo_url);
 
 //Tell our app to use our router whenever we see api

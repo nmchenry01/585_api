@@ -39,6 +39,7 @@ router.post('/addlocation', function (req, res) {
             res.send("There was a problem adding the information to the database." + " " + err);
         } else {
             res.send("Added a location to the database"); //Need to add more extensive logging
+            //res.json(doc)
         }
 
     });
@@ -55,7 +56,8 @@ router.get('/getlocation/:title', function (req, res) {
         if (err) {
             res.send('There was an error in finding one document by location' + " " + err)
         } else {
-            res.send(doc + ' ' + title)
+            //res.send(doc + ' ' + title)
+            res.json(doc)
         }
     });
 });
@@ -67,7 +69,22 @@ router.get('/alllocations', function (req, res) {
         if (err) {
             res.send('There was an error in finding all documents'  + " " + err)
         } else {
-            res.send(doc + typeof (doc))
+            //res.send(doc + typeof (doc))
+            res.json(doc)
+        }
+    });
+
+});
+
+//Use router to clear all locations in database
+router.get('/clearlocations', function (req, res) {
+    //Return everything in the database
+    mongoose.model('location').remove({}, function (err, doc) {
+        if (err) {
+            res.send('There was an error in clearing all documents'  + " " + err)
+        } else {
+            //res.send(doc + typeof (doc))
+            res.send('All locations cleared from database')
         }
     });
 
