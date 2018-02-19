@@ -5,6 +5,7 @@ import Location from './models/location.js';
 import router from './api/router.js'
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 
 /*
 TODO set express deployment to production
@@ -30,6 +31,15 @@ app.use('/api', router);
 //Autologging to standard out 
 //TODO consider redirecting to a file
 app.use(morgan('combined'));
+
+//enables cors
+app.use(cors({
+  'allowedHeaders': ['sessionId', 'Content-Type'],
+  'exposedHeaders': ['sessionId'],
+  'origin': '*',
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false
+}));
 
 // Launch the server on port 8080
 const server = app.listen(PORT, () => {
