@@ -30,16 +30,24 @@ router.post('/addlocation', function (req, res) {
 
     //call the create function for our database
     mongoose.model('location').create({
+
         title: title,
         description: description,
         latitude: latitude,
         longitude: longitude
+
     }, function (err, doc) {
+
         if (err) {
-            res.send("There was a problem adding the information to the database." + " " + err);
+            res.send(400, {
+                'error': 'An error with adding a location has occured',
+                'err': err
+            });
         } else {
-            res.send("Added a location to the database"); //Need to add more extensive logging
-            //res.json(doc)
+            res.send(200, {
+                "success": "Add location successful",
+                "doc": doc
+            });
         }
 
     });
@@ -48,17 +56,27 @@ router.post('/addlocation', function (req, res) {
 
 //Use router to handle a location GET using title
 router.get('/getlocation/:title', function (req, res) {
+
     var title = req.params['title']
 
     mongoose.model('location').findOne({
+
         'title': title
+
     }, function (err, doc) {
+
         if (err) {
-            res.send('There was an error in finding one document by location' + " " + err)
+            res.send(400, {
+                'error': 'An error with retrieving a location by title has occured',
+                'err': err
+            });
         } else {
-            //res.send(doc + ' ' + title)
-            res.json(doc)
+            res.send(200, {
+                "success": "Retrieved a location by title successfully",
+                "doc": doc
+            });
         }
+
     });
 });
 
@@ -66,12 +84,19 @@ router.get('/getlocation/:title', function (req, res) {
 router.get('/alllocations', function (req, res) {
     //Return everything in the database
     mongoose.model('location').find({}, function (err, doc) {
+
         if (err) {
-            res.send('There was an error in finding all documents'  + " " + err)
+            res.send(400, {
+                'error': 'An error with retrieving all locations has occured',
+                'err': err
+            });
         } else {
-            //res.send(doc + typeof (doc))
-            res.json(doc)
+            res.send(200, {
+                "success": "Retrieved all locations successfully",
+                "doc": doc
+            });
         }
+
     });
 
 });
@@ -81,7 +106,7 @@ router.get('/clearlocations', function (req, res) {
     //Return everything in the database
     mongoose.model('location').remove({}, function (err, doc) {
         if (err) {
-            res.send('There was an error in clearing all documents'  + " " + err)
+            res.send('There was an error in clearing all documents' + " " + err)
         } else {
             //res.send(doc + typeof (doc))
             res.send('All locations cleared from database')
