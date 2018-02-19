@@ -33,13 +33,8 @@ app.use('/api', router);
 app.use(morgan('combined'));
 
 //enables cors
-app.use(cors({
-  'allowedHeaders': ['sessionId', 'Content-Type'],
-  'exposedHeaders': ['sessionId'],
-  'origin': '*',
-  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  'preflightContinue': false
-}));
+app.use(cors());
+app.options('*', cors());
 
 // Launch the server on port 8080
 const server = app.listen(PORT, () => {
