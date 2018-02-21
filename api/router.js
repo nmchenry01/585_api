@@ -136,6 +136,10 @@ router.post('/updatelikes', function (req, res) {
                     'error': 'An error with updating likes has occured',
                     'err': err
                 });
+            } else if (!doc) {
+                res.send(400, {
+                    "error": "No document was found matching that title"
+                });
             } else {
                 res.send(200, {
                     "success": "Updated the like count successfully",
@@ -155,6 +159,10 @@ router.post('/updatelikes', function (req, res) {
                 res.send(400, {
                     'error': 'An error with updating dislikes has occured',
                     'err': err
+                });
+            } else if (!doc) {
+                res.send(400, {
+                    "error": "No document was found matching that title"
                 });
             } else {
                 res.send(200, {
