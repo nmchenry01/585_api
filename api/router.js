@@ -115,4 +115,60 @@ router.get('/clearlocations', function (req, res) {
 
 });
 
+
+//Use router to update like/dislike count
+router.post('/updatelikes', function (req, res) {
+    //Read parameters from the body
+    var input = req.body.type
+    var title = req.body.title
+
+
+    if (input == 'like') { //Update like count
+        mongoose.model('location').findOneAndUpdate({
+            'title': title
+        }, {
+            $inc: {
+                "likes": 1
+            }
+        }, function (err, doc) {
+            if (err) {
+                res.send(400, {
+                    'error': 'An error with updating likes has occured',
+                    'err': err
+                });
+            } else {
+                res.send(200, {
+                    "success": "Updated the like count successfully",
+                    "doc": doc
+                });
+            }
+        });
+    } else if (input == 'dislike') { //Update dislike count
+        mongoose.model('location').findOneAndUpdate({
+            'title': title
+        }, {
+            $inc: {
+                "dislikes": 1
+            }
+        }, function (err, doc) {
+            if (err) {
+                res.send(400, {
+                    'error': 'An error with updating dislikes has occured',
+                    'err': err
+                });
+            } else {
+                res.send(200, {
+                    "success": "Updated the dislike count successfully",
+                    "doc": doc
+                });
+            }
+        });
+    } else {
+        res.send(400, {
+            'error': "Body parameter for like/dislike is invalid. Please submit either type:like or type:dislike"
+        })
+    }
+
+});
+
 export default router;
