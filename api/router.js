@@ -115,6 +115,21 @@ router.get('/clearlocations', function (req, res) {
 
 });
 
+//Use router to clear a location by title in database
+router.get('/clearonelocation/:title', function (req, res) {
+    //Return everything in the database
+    mongoose.model('location').remove({
+        'title': title
+    }, function (err, doc) {
+        if (err) {
+            res.send('There was an error in clearing the document' + " " + err)
+        } else {
+            //res.send(doc + typeof (doc))
+            res.send('The location ' + title + ' was cleared from the database')
+        }
+    });
+});
+
 
 //Use router to update like/dislike count
 router.post('/updatelikes', function (req, res) {
