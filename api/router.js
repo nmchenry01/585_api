@@ -117,7 +117,10 @@ router.get('/clearlocations', function (req, res) {
 
 //Use router to clear a location by title in database
 router.get('/clearonelocation/:title', function (req, res) {
-    //Return everything in the database
+    //Pull request parameter
+    var title = req.params['title']
+
+    //Remove the title specified in request
     mongoose.model('location').remove({
         'title': title
     }, function (err, doc) {
