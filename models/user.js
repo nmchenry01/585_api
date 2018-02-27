@@ -5,7 +5,7 @@ import mongoose, {
 // Define user schema
 //TODO add more fields as the application changes
 //TODO add more verification steps
-var locationSchema = new Schema({
+var userSchema = new Schema({
     userID: {
         type: String,
         required: true,
@@ -23,7 +23,7 @@ var locationSchema = new Schema({
     userImage: {
         type: String,
         required: true,
-        default: ''
+        default: 'No Image'
     },
     previousLikes: [{
         type: String,
@@ -31,3 +31,6 @@ var locationSchema = new Schema({
         default: ''
     }]
 });
+
+// Export Mongoose model
+export default mongoose.model('user', userSchema);

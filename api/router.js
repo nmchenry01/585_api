@@ -19,6 +19,12 @@ router.use(express.json());
 // to support URL-encoded bodies
 router.use(express.urlencoded());
 
+/*
+
+####################################### BELOW THIS LINE IS FOR THE LOCATION MODEL ######################################################
+
+*/
+
 //Use router to handle a location POST
 //TODO abstract functionality here out to a seperate API folder
 router.post('/addlocation', function (req, res) {
@@ -196,5 +202,64 @@ router.post('/updatelikes', function (req, res) {
     }
 
 });
+
+
+/*
+
+####################################### BELOW THIS LINE IS FOR THE USER MODEL ######################################################
+
+*/
+
+//Create a user
+router.post('/adduser', function (req, res) {
+    // Get values from POST request
+    var userID = req.body.userID
+    var username = req.body.username
+
+    //call the create function for our database
+    mongoose.model('user').create({
+
+        userID: userID,
+        username: username
+
+    }, function (err, doc) {
+
+        if (err) {
+            res.send(400, {
+                'error': 'An error with adding a user has occured',
+                'err': err
+            });
+        } else {
+            res.send(200, {
+                "success": "Add user successful",
+                "doc": doc
+            });
+        }
+
+    });
+
+});
+
+//Update a user's liked locations
+router.post('/updatelikedlocation', function (req, res) {
+
+    var userID = req.body.userID
+    var title = req.body.title
+
+    mongoose.model('user').findOneAndUpdate({
+        'userID': userID
+    }, {
+        $push: {
+            "previousLikes": title
+        }
+    }, function (err, doc) {
+        if (err) {
+            res.send('There was an error in updating the liked locations for the user' + " " + err)
+        } else {
+            res.send('The location ' + title + ' was added to the liked location list of ' + userID)
+        }
+    });
+});
+
 
 export default router;
