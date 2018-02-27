@@ -322,7 +322,7 @@ router.get('/clearallusers', function (req, res) {
 
 });
 
-/*
+
 //Update a user's username
 router.post('/updateusername', function (req, res) {
 
@@ -332,17 +332,18 @@ router.post('/updateusername', function (req, res) {
     mongoose.model('user').findOneAndUpdate({
         'userID': userID
     }, {
-        $push: {
-            "previousLikes": title
-        }
+        'username': new_username
     }, function (err, doc) {
         if (err) {
             res.send('There was an error in updating the username for the user' + " " + err)
         } else {
-            res.send('The username ' + title + ' was added to the liked location list of ' + userID)
+            res.send('The username ' + new_username + ' was updated for ' + userID)
         }
     });
 });
+
+/*
+    Need to add a method to update 
 */
 
 export default router;
