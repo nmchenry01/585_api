@@ -309,6 +309,20 @@ router.get('/getuser/:userID', function (req, res) {
 
 });
 
+//Use router to clear all users in database
+router.get('/clearusers', function (req, res) {
+    //Return everything in the database
+    mongoose.model('user').remove({}, function (err, doc) {
+        if (err) {
+            res.send('There was an error in clearing all documents in users database' + " " + err)
+        } else {
+            //res.send(doc + typeof (doc))
+            res.send('All users cleared from database')
+        }
+    });
+
+});
+
 /*
 //Update a user's username
 router.post('/updateusername', function (req, res) {
