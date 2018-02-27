@@ -31,6 +31,7 @@ router.post('/addlocation', function (req, res) {
     // Get values from POST request, uses body of requst
     var title = req.body.title
     var description = req.body.description
+    var category = req.body.category
     var latitude = req.body.latitude
     var longitude = req.body.longitude
 
@@ -39,6 +40,7 @@ router.post('/addlocation', function (req, res) {
 
         title: title,
         description: description,
+        category: category,
         latitude: latitude,
         longitude: longitude
 

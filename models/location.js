@@ -15,6 +15,10 @@ var locationSchema = new Schema({
         type: String,
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    },
     latitude: {
         type: Number,
         required: true,
