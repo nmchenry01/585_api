@@ -316,7 +316,6 @@ router.get('/clearallusers', function (req, res) {
         if (err) {
             res.send('There was an error in clearing all documents in users database' + " " + err)
         } else {
-            //res.send(doc + typeof (doc))
             res.send('All users cleared from database')
         }
     });
