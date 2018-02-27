@@ -310,7 +310,7 @@ router.get('/getuser/:userID', function (req, res) {
 });
 
 //Use router to clear all users in database
-router.get('/clearusers', function (req, res) {
+router.get('/clearallusers', function (req, res) {
     //Return everything in the database
     mongoose.model('user').remove({}, function (err, doc) {
         if (err) {
