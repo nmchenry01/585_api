@@ -2,6 +2,7 @@ import mongoose, {
   mongo
 } from 'mongoose';
 import Location from './models/location.js';
+import User from './models/user.js'
 import router from './api/router.js'
 import express from 'express';
 import morgan from 'morgan';
