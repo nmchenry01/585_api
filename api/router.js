@@ -282,6 +282,33 @@ router.get('/allusers', function (req, res) {
 
 });
 
+//Use router to retrieve a specific user
+router.get('/getuser/:userID', function (req, res) {
+
+    var userID = req.params['userID']
+
+    mongoose.model('user').findOne({
+
+        "userID": userID
+
+    }, function (err, doc) {
+
+        if (err) {
+            res.send(400, {
+                'error': 'An error with retrieving a specific user has occured',
+                'err': err
+            });
+        } else {
+            res.send(200, {
+                "success": "Retrieved the user " + userID + " successfully",
+                "doc": doc
+            });
+        }
+
+    });
+
+});
+
 /*
 //Update a user's username
 router.post('/updateusername', function (req, res) {
