@@ -36,8 +36,8 @@ var locationSchema = new Schema({
         type: Number,
         required: true,
         default: 0
-    },
-},); 
+    }
+}); 
 
 // Export Mongoose model
 export default mongoose.model('location', locationSchema);
