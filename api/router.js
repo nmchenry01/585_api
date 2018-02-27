@@ -261,5 +261,48 @@ router.post('/updatelikedlocation', function (req, res) {
     });
 });
 
+//Use router to retrieve all locations using a GET
+router.get('/allusers', function (req, res) {
+    //Return everything in the database
+    mongoose.model('user').find({}, function (err, doc) {
+
+        if (err) {
+            res.send(400, {
+                'error': 'An error with retrieving all users has occured',
+                'err': err
+            });
+        } else {
+            res.send(200, {
+                "success": "Retrieved all users successfully",
+                "doc": doc
+            });
+        }
+
+    });
+
+});
+
+/*
+//Update a user's username
+router.post('/updateusername', function (req, res) {
+
+    var userID = req.body.userID
+    var new_username = req.body.new_username
+
+    mongoose.model('user').findOneAndUpdate({
+        'userID': userID
+    }, {
+        $push: {
+            "previousLikes": title
+        }
+    }, function (err, doc) {
+        if (err) {
+            res.send('There was an error in updating the username for the user' + " " + err)
+        } else {
+            res.send('The username ' + title + ' was added to the liked location list of ' + userID)
+        }
+    });
+});
+*/
 
 export default router;
