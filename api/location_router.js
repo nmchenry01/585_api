@@ -5,29 +5,23 @@ import mongoose, {
 } from 'mongoose';
 
 //Initialize router
-var router = express.Router();
+var location_router = express.Router();
 
 // to support JSON-encoded bodies
-router.use(bodyParser.json());
+location_router.use(bodyParser.json());
 // to support URL-encoded bodies
-router.use(bodyParser.urlencoded({
+location_router.use(bodyParser.urlencoded({
     extended: true
 }));
 
 // to support JSON-encoded bodies
-router.use(express.json());
+location_router.use(express.json());
 // to support URL-encoded bodies
-router.use(express.urlencoded());
-
-/*
-
-####################################### BELOW THIS LINE IS FOR THE LOCATION MODEL ######################################################
-
-*/
+location_router.use(express.urlencoded());
 
 //Use router to handle a location POST
 //TODO abstract functionality here out to a seperate API folder
-router.post('/addlocation', function (req, res) {
+location_router.post('/addlocation', function (req, res) {
     // Get values from POST request, uses body of requst
     var title = req.body.title
     var description = req.body.description
@@ -63,7 +57,7 @@ router.post('/addlocation', function (req, res) {
 });
 
 //Use router to handle a location GET using title
-router.get('/getlocation/:title', function (req, res) {
+location_router.get('/getlocation/:title', function (req, res) {
 
     var title = req.params['title']
 
@@ -89,7 +83,7 @@ router.get('/getlocation/:title', function (req, res) {
 });
 
 //Use router to retrieve all locations using a GET
-router.get('/alllocations', function (req, res) {
+location_router.get('/alllocations', function (req, res) {
     //Return everything in the database
     mongoose.model('location').find({}, function (err, doc) {
 
@@ -110,7 +104,7 @@ router.get('/alllocations', function (req, res) {
 });
 
 //Use router to clear all locations in database
-router.get('/clearlocations', function (req, res) {
+location_router.get('/clearlocations', function (req, res) {
     //Return everything in the database
     mongoose.model('location').remove({}, function (err, doc) {
         if (err) {
@@ -124,7 +118,7 @@ router.get('/clearlocations', function (req, res) {
 });
 
 //Use router to clear a location by title in database
-router.get('/clearonelocation/:title', function (req, res) {
+location_router.get('/clearonelocation/:title', function (req, res) {
     //Pull request parameter
     var title = req.params['title']
 
@@ -143,7 +137,7 @@ router.get('/clearonelocation/:title', function (req, res) {
 
 
 //Use router to update like/dislike count
-router.post('/updatelikes', function (req, res) {
+location_router.post('/updatelikes', function (req, res) {
     //Read parameters from the body
     var input = req.body.type
     var title = req.body.title
@@ -206,146 +200,4 @@ router.post('/updatelikes', function (req, res) {
 });
 
 
-/*
-
-####################################### BELOW THIS LINE IS FOR THE USER MODEL ######################################################
-
-*/
-
-//Create a user
-router.post('/adduser', function (req, res) {
-    // Get values from POST request
-    var userID = req.body.userID
-    var username = req.body.username
-
-    //call the create function for our database
-    mongoose.model('user').create({
-
-        userID: userID,
-        username: username
-
-    }, function (err, doc) {
-
-        if (err) {
-            res.send(400, {
-                'error': 'An error with adding a user has occured',
-                'err': err
-            });
-        } else {
-            res.send(200, {
-                "success": "Add user successful",
-                "doc": doc
-            });
-        }
-
-    });
-
-});
-
-//Update a user's liked locations
-router.post('/updatelikedlocation', function (req, res) {
-
-    var userID = req.body.userID
-    var title = req.body.title
-
-    mongoose.model('user').findOneAndUpdate({
-        'userID': userID
-    }, {
-        $push: {
-            "previousLikes": title
-        }
-    }, function (err, doc) {
-        if (err) {
-            res.send('There was an error in updating the liked locations for the user' + " " + err)
-        } else {
-            res.send('The location ' + title + ' was added to the liked location list of ' + userID)
-        }
-    });
-});
-
-//Use router to retrieve all locations using a GET
-router.get('/allusers', function (req, res) {
-    //Return everything in the database
-    mongoose.model('user').find({}, function (err, doc) {
-
-        if (err) {
-            res.send(400, {
-                'error': 'An error with retrieving all users has occured',
-                'err': err
-            });
-        } else {
-            res.send(200, {
-                "success": "Retrieved all users successfully",
-                "doc": doc
-            });
-        }
-
-    });
-
-});
-
-//Use router to retrieve a specific user
-router.get('/getuser/:userID', function (req, res) {
-
-    var userID = req.params['userID']
-
-    mongoose.model('user').findOne({
-
-        "userID": userID
-
-    }, function (err, doc) {
-
-        if (err) {
-            res.send(400, {
-                'error': 'An error with retrieving a specific user has occured',
-                'err': err
-            });
-        } else {
-            res.send(200, {
-                "success": "Retrieved the user " + userID + " successfully",
-                "doc": doc
-            });
-        }
-
-    });
-
-});
-
-//Use router to clear all users in database
-router.get('/clearallusers', function (req, res) {
-    //Return everything in the database
-    mongoose.model('user').remove({}, function (err, doc) {
-        if (err) {
-            res.send('There was an error in clearing all documents in users database' + " " + err)
-        } else {
-            res.send('All users cleared from database')
-        }
-    });
-
-});
-
-
-//Update a user's username
-router.post('/updateusername', function (req, res) {
-
-    var userID = req.body.userID
-    var new_username = req.body.new_username
-
-    mongoose.model('user').findOneAndUpdate({
-        'userID': userID
-    }, {
-        'username': new_username
-    }, function (err, doc) {
-        if (err) {
-            res.send('There was an error in updating the username for the user' + " " + err)
-        } else {
-            res.send('The username ' + new_username + ' was updated for ' + userID)
-        }
-    });
-});
-
-/*
-    Need to add a method to update 
-*/
-
-export default router;
+export default location_router;
