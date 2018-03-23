@@ -24,9 +24,9 @@ const PORT = 8080;
 
 // Connect to MongoDB
 
-//var mongo_url = process.env.MONGO_URL //for deployment
-var test_url = 'mongodb://localhost:27017/mongodb' //for testing
-mongoose.connect(test_url).catch(function (err) {
+var mongo_url = process.env.MONGO_URL //for deployment
+//var test_url = 'mongodb://localhost:27017/mongodb' //for testing
+mongoose.connect(mongo_url).catch(function (err) {
   console.log('There was an error connecting to the MongoDB ' + err)
 });
 
