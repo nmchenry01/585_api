@@ -23,7 +23,7 @@ var userSchema = new Schema({
     userImage: {
         type: String,
         required: true,
-        default: 'No Image'
+        default: 'Default Image'
     },
     previousLikes: [{
         type: String,

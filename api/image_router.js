@@ -51,13 +51,70 @@ image_router.get('/uploadtest', function (req, res) {
 });
 
 //Upload user image
-image_router.post('/uploaduserimage/:id', multiparty, function(req, res){
+/*
+image_router.post('/uploaduserimage', multiparty, function(req, res){
         //Variables necessary for gridfs
         var db = mongoose.connection.db;
-        var user_id = req.params['id'];
+        var userID = req.body.userID
+        var base_64_pic = req.body.base64
         var mongoDriver = mongoose.mongo;
         console.log('open')
         var gfs = new gridfs(db, mongoDriver);
+
+        var writestream = gfs.createWriteStream({
+
+        });
+
+});
+*/
+
+//Upload user image
+image_router.post('/uploaduserimage', function (req, res) {
+    //Variables necessary for image update
+    var userID = req.body.userID
+    var base_64 = req.body.base64
+    //var buffer = Buffer.from(base_64, 'base64'); //Convert to binary
+
+    mongoose.model('user').findOneAndUpdate({
+        'userID': userID
+    }, {
+        'userImage': base_64
+    }, function (err, doc) {
+        if (err) {
+            res.send('There was an error in updating the userImage for the user' + " " + err)
+        } else {
+            res.send('The userImage was updated for ' + userID)
+        }
+    });
+
+
+});
+
+//Get user profile image
+image_router.get('/getuserimage/:userID', function (req, res) {
+    var userID = req.params['userID']
+
+    //Get user by userID
+    mongoose.model('user').findOne({
+
+        "userID": userID
+
+    }, function (err, doc) {
+
+        if (err) {
+            res.send(400, {
+                'error': 'An error with retrieving a specific userImage has occured',
+                'err': err
+            });
+        } else {
+            res.send(200, {
+                "success": "Retrieved the userImage for " + userID + " successfully",
+                "doc": doc['userImage']
+            });
+        }
+
+    });
+
 
 });
 
