@@ -68,7 +68,7 @@ image_router.post('/uploaduserimage', multiparty, function(req, res){
 });
 */
 
-//Upload user image
+//Upload user profile image
 image_router.post('/uploaduserimage', function (req, res) {
     //Variables necessary for image update
     var userID = req.body.userID

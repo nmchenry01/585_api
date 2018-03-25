@@ -3,9 +3,11 @@ import mongoose, {
 } from 'mongoose';
 import Location from './models/location.js';
 import User from './models/user.js';
+import Route from './models/route.js';
 import location_router from './api/location_router.js';
 import image_router from './api/image_router.js';
 import user_router from './api/user_router';
+import route_router from './api/route_router';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
@@ -34,10 +36,13 @@ mongoose.connect(mongo_url).catch(function (err) {
 app.use('/locationapi', location_router);
 
 //Testing routing for images
-app.use('/imageapi', image_router)
+app.use('/imageapi', image_router);
 
 //Router for user requests
-app.use('/userapi', user_router)
+app.use('/userapi', user_router);
+
+//Router for route information
+app.use('/routeapi', route_router);
 
 //Autologging to standard out 
 //TODO consider redirecting to a file

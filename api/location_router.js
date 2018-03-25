@@ -20,7 +20,6 @@ location_router.use(express.json());
 location_router.use(express.urlencoded());
 
 //Use router to handle a location POST
-//TODO abstract functionality here out to a seperate API folder
 location_router.post('/addlocation', function (req, res) {
     // Get values from POST request, uses body of requst
     var title = req.body.title
