@@ -4,6 +4,10 @@ import mongoose, {
 
 // Define route schema
 var routeSchema = new Schema({
+    location: {
+        type: String,
+        required: true
+    },
     operator: {
         type: String,
         required: true

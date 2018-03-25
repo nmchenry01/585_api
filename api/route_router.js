@@ -22,6 +22,7 @@ route_router.use(express.urlencoded());
 //Use router to handle a route POST
 route_router.post('/addroute', function (req, res) {
     // Get values from POST request
+    var location = req.body.location
     var operator = req.body.operator
     var name = req.body.name
     var stop = req.body.stop
@@ -37,7 +38,8 @@ route_router.post('/addroute', function (req, res) {
 
     //call the create function for our database
     mongoose.model('route').create({
-
+        
+        location: location,
         operator: operator,
         name: name,
         stop: stop,
@@ -80,6 +82,31 @@ route_router.get('/allroutes', function (req, res) {
 
     });
 
+});
+
+//Get all routes for a specific location
+route_router.get('/locationroutes/:location', function (req, res) {
+    var location = req.params['location']
+
+    mongoose.model('route').find({
+
+        "location": location
+
+    }, function (err, doc) {
+
+        if (err) {
+            res.send(400, {
+                'error': 'An error with retrieving routes for a location has occured',
+                'err': err
+            });
+        } else {
+            res.send(200, {
+                "success": "Retrieved the routes for " + location + " successfully",
+                "doc": doc
+            });
+        }
+
+    });
 });
 
 export default route_router;
