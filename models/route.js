@@ -11,6 +11,14 @@ var routeSchema = new Schema({
     name: {
         type: String,
         required: true
+    },
+    stop: {
+        type: String,
+        default: 'No Stop Specified'
+    },
+    walkingDescription: {
+        type: String,
+        default: 'No Walking Description Specified'
     }
 }); 
 
