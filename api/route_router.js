@@ -38,7 +38,7 @@ route_router.post('/addroute', function (req, res) {
 
     //call the create function for our database
     mongoose.model('route').create({
-        
+
         location: location,
         operator: operator,
         name: name,

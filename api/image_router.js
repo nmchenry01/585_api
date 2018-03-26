@@ -56,7 +56,7 @@ image_router.post('/uploaduserimage', multiparty, function(req, res){
         //Variables necessary for gridfs
         var db = mongoose.connection.db;
         var userID = req.body.userID
-        var base_64_pic = req.body.base64
+        var base64 = req.body.base64
         var mongoDriver = mongoose.mongo;
         console.log('open')
         var gfs = new gridfs(db, mongoDriver);
@@ -72,18 +72,39 @@ image_router.post('/uploaduserimage', multiparty, function(req, res){
 image_router.post('/uploaduserimage', function (req, res) {
     //Variables necessary for image update
     var userID = req.body.userID
-    var base_64 = req.body.base64
-    //var buffer = Buffer.from(base_64, 'base64'); //Convert to binary
+    var base64 = req.body.base64
+    //var buffer = Buffer.from(base64, 'base64'); //Convert to binary
 
     mongoose.model('user').findOneAndUpdate({
         'userID': userID
     }, {
-        'userImage': base_64
+        'userImage': base64
     }, function (err, doc) {
         if (err) {
             res.send('There was an error in updating the userImage for the user' + " " + err)
         } else {
             res.send('The userImage was updated for ' + userID)
+        }
+    });
+
+
+});
+
+//Delete/Reset a user profile image
+image_router.get('/removeuserimage/:userID', function (req, res) {
+    //Variables necessary for image update
+    var userID = req.params['userID']
+    //var buffer = Buffer.from(base64, 'base64'); //Convert to binary
+
+    mongoose.model('user').findOneAndUpdate({
+        'userID': userID
+    }, {
+        'userImage': 'Default Image'
+    }, function (err, doc) {
+        if (err) {
+            res.send('There was an error in deleting the userImage for the user' + " " + err)
+        } else {
+            res.send('The userImage was deleted for ' + userID)
         }
     });
 
@@ -117,5 +138,65 @@ image_router.get('/getuserimage/:userID', function (req, res) {
 
 
 });
+
+//Add location image
+image_router.post('/uploadlocationimage', function (req, res) {
+    //Variables necessary for image update
+    var location = req.body.location
+    var base64 = req.body.base64
+    //var buffer = Buffer.from(base64, 'base64'); //Convert to binary
+
+    mongoose.model('image').create({
+
+        location: location,
+        base64: base64
+
+    }, function (err, doc) {
+
+        if (err) {
+            res.send(400, {
+                'error': 'An error with adding a location image has occured',
+                'err': err
+            });
+        } else {
+            res.send(200, {
+                "success": "Add location image successful",
+                "doc": doc
+            });
+        }
+
+    });
+
+
+});
+
+
+//Get all images for a specific location
+image_router.get('/locationimages/:location', function (req, res) {
+    var location = req.params['location']
+
+    mongoose.model('image').find({
+
+        "location": location
+
+    }, function (err, doc) {
+
+        if (err) {
+            res.send(400, {
+                'error': 'An error with retrieving images for a location has occured',
+                'err': err
+            });
+        } else {
+            res.send(200, {
+                "success": "Retrieved the images for " + location + " successfully",
+                "doc": doc
+            });
+        }
+
+    });
+});
+
+
+//Remove all images for a location
 
 export default image_router;

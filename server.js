@@ -4,6 +4,7 @@ import mongoose, {
 import Location from './models/location.js';
 import User from './models/user.js';
 import Route from './models/route.js';
+import Image from './models/image.js';
 import location_router from './api/location_router.js';
 import image_router from './api/image_router.js';
 import user_router from './api/user_router';
