@@ -19,8 +19,7 @@ image_router.use(bodyParser.urlencoded({
 }));
 
 //Handle large payloads
-image_router.use(bodyParser.json({limit: '50mb'}));
-image_router.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+image_router.use(bodyParser({limit: '50mb'}));
 
 // to support JSON-encoded bodies
 image_router.use(express.json());

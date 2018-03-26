@@ -55,8 +55,7 @@ app.use(cors());
 app.options('*', cors());
 
 //Handle large payloads
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser({limit: '50mb'}));
 
 // Launch the server on port 8080
 const server = app.listen(PORT, () => {
