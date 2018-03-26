@@ -12,6 +12,7 @@ import route_router from './api/route_router';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 
 /*
 TODO set express deployment to production
@@ -54,7 +55,8 @@ app.use(cors());
 app.options('*', cors());
 
 //Handle large payloads
-app.use(express.bodyParser({limit: '50mb'}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // Launch the server on port 8080
 const server = app.listen(PORT, () => {
