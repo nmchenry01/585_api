@@ -12,19 +12,12 @@ import multiparty from 'connect-multiparty';
 var image_router = express.Router();
 
 // to support JSON-encoded bodies
+image_router.use(bodyParser({limit: '50mb'}));
 image_router.use(bodyParser.json());
 // to support URL-encoded bodies
 image_router.use(bodyParser.urlencoded({
     extended: true
 }));
-
-//Handle large payloads
-image_router.use(bodyParser({limit: '50mb'}));
-
-// to support JSON-encoded bodies
-image_router.use(express.json());
-// to support URL-encoded bodies
-image_router.use(express.urlencoded());
 
 //Test to see if we have accesss to db connection
 image_router.get('/', function (req, res) {

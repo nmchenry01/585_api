@@ -54,9 +54,6 @@ app.use(morgan('combined'));
 app.use(cors());
 app.options('*', cors());
 
-//Handle large payloads
-app.use(bodyParser({limit: '50mb'}));
-
 // Launch the server on port 8080
 const server = app.listen(PORT, () => {
   const {
