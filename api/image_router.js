@@ -126,7 +126,7 @@ image_router.get('/getuserimage/:userID', function (req, res) {
         } else {
             res.send(200, {
                 "success": "Retrieved the userImage for " + userID + " successfully",
-                "doc": doc['userImage']
+                "doc": doc
             });
         }
 
@@ -190,6 +190,20 @@ image_router.get('/locationimages/:location', function (req, res) {
         }
 
     });
+});
+
+//Use router to clear all images in database
+location_router.get('/clearimages', function (req, res) {
+    //Return everything in the database
+    mongoose.model('image').remove({}, function (err, doc) {
+        if (err) {
+            res.send('There was an error in clearing all image documents' + " " + err)
+        } else {
+            //res.send(doc + typeof (doc))
+            res.send('All images cleared from database')
+        }
+    });
+
 });
 
 
