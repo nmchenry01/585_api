@@ -193,7 +193,7 @@ image_router.get('/locationimages/:location', function (req, res) {
 });
 
 //Use router to clear all images in database
-location_router.get('/clearimages', function (req, res) {
+image_router.get('/clearimages', function (req, res) {
     //Return everything in the database
     mongoose.model('image').remove({}, function (err, doc) {
         if (err) {
