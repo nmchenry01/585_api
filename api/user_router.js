@@ -152,9 +152,37 @@ user_router.post('/updateusername', function (req, res) {
     });
 });
 
-/*
-    Need to add a method to update 
-*/
+//Update a user's reputation
+user_router.post('/updatescore', function (req, res) {
+    var userID = req.body.userID
+    var score = req.body.score
+
+    mongoose.model('user').findOneAndUpdate({
+            'userID': userID
+        }, {
+            $inc: {
+                "userReputation": parseInt(score)
+            }
+        }, function (err, doc) {
+            if (err) {
+                res.send(400, {
+                    'error': 'An error with updating user reputation has occured',
+                    'err': err
+                });
+            } else if (!doc) {
+                res.send(400, {
+                    "error": "No document was found matching that user id"
+                });
+            } else {
+                res.send(200, {
+                    "success": "Updated the user reputation successfully",
+                    "doc": doc
+                });
+            }
+        }
+
+    )
+});
 
 //Export to server.js
 export default user_router;
