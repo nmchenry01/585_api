@@ -15,6 +15,10 @@ var locationSchema = new Schema({
         type: String,
         required: true
     },
+    contributor: {
+        type: String,
+        required: true
+    },
     category: {
         type: String,
         required: true
