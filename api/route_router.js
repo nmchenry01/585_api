@@ -109,4 +109,18 @@ route_router.get('/locationroutes/:location', function (req, res) {
     });
 });
 
+//Use router to clear all routes in database
+route_router.get('/clearroutes', function (req, res) {
+    //Return everything in the database
+    mongoose.model('route').remove({}, function (err, doc) {
+        if (err) {
+            res.send('There was an error in clearing all documents' + " " + err)
+        } else {
+            //res.send(doc + typeof (doc))
+            res.send('All routes cleared from database')
+        }
+    });
+
+});
+
 export default route_router;
